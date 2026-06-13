@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "agentwikis": {
+      "command": "npx",
+      "args": ["-y", "agentwikis-mcp"]
+    },
+    "finnhub": {
+      "command": "python",
+      "args": ["$HERMES_HOME/tools/finnhub_server.py"],
+      "env": {
+        "FINNHUB_API_KEY": "${FINNHUB_API_KEY}"
+      }
+    }
+  }
+}

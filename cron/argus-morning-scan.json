@@ -1,0 +1,11 @@
+{
+  "name": "argus-morning-scan",
+  "skill": "argus-morning-scan",
+  "skills": ["argus-morning-scan", "obsidian"],
+  "prompt": "Run your complete morning research scan now.\n\n1. Load references/interests.yaml and any performance insights from the vault.\n2. Scan all 5 signal lanes: AI tools, content performance, audience pain points, creator economy signals, and competitor intelligence.\n3. Score every signal 1–5.\n4. Apply the verification gate: if zero items scored 3+, send only '🔭 No signal today.' to Telegram and stop delivery.\n5. If items scored 3+, deliver the full rich markdown table to Telegram via send_message.\n6. Always write the full scan to Obsidian at wiki/synthesis/argus-scan-{YYYY-MM-DD}.md.\n7. Write the content handoff to wiki/inbox/argus-handoff-{YYYY-MM-DD}.json for any items scoring 3+ with a strong content angle.",
+  "schedule": "0 9 * * *",
+  "repeat": "forever",
+  "deliver": "local",
+  "enabled": true,
+  "enabled_toolsets": ["web", "browser", "file", "x_search", "coding"]
+}

@@ -1,0 +1,31 @@
+# hermes-research-agent config
+# Model and provider — change to any OpenRouter-supported model
+# deepseek/deepseek-v4-flash is fast, cheap, and handles research tasks well
+model:
+  default: deepseek/deepseek-v4-flash
+
+provider:
+  default: openrouter
+  openrouter:
+    base_url: https://openrouter.ai/api/v1
+
+# Memory — Honcho is optional. Remove this block if you don't have a Honcho account.
+# Sign up at honcho.dev for cross-session memory.
+# memory:
+#   provider: honcho
+
+# Toolsets available to this agent
+# Interactive sessions get all toolsets.
+# Cron jobs declare their own minimum subset in each skill's frontmatter.
+tool_sets:
+  enabled:
+    - web_search
+    - browser
+    - file_ops
+    - messaging
+    - memory
+    - session_search
+    - cron_jobs
+    - code_execution
+    - terminal
+    - x_search

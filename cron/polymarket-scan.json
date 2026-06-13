@@ -1,0 +1,11 @@
+{
+  "name": "polymarket-scan",
+  "skill": "polymarket",
+  "skills": ["polymarket", "obsidian"],
+  "prompt": "Run your complete weekly Polymarket scan now.\n\n1. Pull active markets across three categories: AI/tech, crypto, macro/geopolitical.\n2. For each category, surface top 3–5 markets by volume and flag any with 10%+ probability shifts since last week.\n3. Deliver the formatted summary to Telegram via send_message.\n4. Write the full analysis to Obsidian at wiki/synthesis/polymarket-scan-{YYYY-MM-DD}.md.",
+  "schedule": "30 11 * * 1",
+  "repeat": "forever",
+  "deliver": "local",
+  "enabled": true,
+  "enabled_toolsets": ["web", "file"]
+}

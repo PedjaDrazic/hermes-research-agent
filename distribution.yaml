@@ -1,0 +1,28 @@
+name: hermes-research-agent
+version: 1.0.0
+description: "Autonomous AI research agent — daily tech/AI digest to Telegram, weekly market scan, prediction market monitor. Built by Pedja Drazic (pedjadrazic.com)"
+hermes_requires: ">=0.16.0"
+author: "Pedja Drazic"
+license: "MIT"
+
+env_requires:
+  - name: OPENROUTER_API_KEY
+    description: "OpenRouter API key for model access. Get one free at openrouter.ai"
+    required: true
+
+  - name: TELEGRAM_BOT_TOKEN
+    description: "Telegram bot token. Create via @BotFather on Telegram, then /newbot"
+    required: true
+
+  - name: TELEGRAM_ALLOWED_USERS
+    description: "Your Telegram user ID (numbers only). Get it from @userinfobot on Telegram"
+    required: true
+
+  - name: OBSIDIAN_VAULT_PATH
+    description: "Absolute path to your local Obsidian vault folder (e.g. C:/Users/YourName/obsidian-vault or /home/user/obsidian)"
+    required: true
+
+  - name: FINNHUB_API_KEY
+    description: "Finnhub API key for real-time stock/crypto/commodity prices. Free tier at finnhub.io — required for market-scan skill"
+    required: false
+    default: ""

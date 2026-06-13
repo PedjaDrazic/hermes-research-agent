@@ -1,0 +1,11 @@
+{
+  "name": "market-scan",
+  "skill": "market-scan",
+  "skills": ["market-scan", "obsidian"],
+  "prompt": "Run your complete weekly market scan now.\n\n1. Batch price pull — Call mcp_finnhub_get_quote_batch with all 9 symbols: NVDA, MSFT, GOOGL, SPY, QQQ, BTC, ETH, GOLD, SILVER.\n2. Derive weekly % change from Finnhub data.\n3. Web search for context on the biggest movers (earnings, macro events, news).\n4. Rank by % change — identify best 3 and worst 3.\n5. Deliver the short summary to Telegram via send_message.\n6. Write the full table to Obsidian at wiki/synthesis/market-scan-{YYYY-MM-DD}.md.",
+  "schedule": "0 11 * * 1",
+  "repeat": "forever",
+  "deliver": "local",
+  "enabled": true,
+  "enabled_toolsets": ["web", "file"]
+}
