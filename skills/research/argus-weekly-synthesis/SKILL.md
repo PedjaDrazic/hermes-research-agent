@@ -15,14 +15,14 @@ Cron — every Sunday at 18:00 local time. Manual: "run weekly synthesis" or "sy
 ## Instructions
 
 ### Step 1 — Read the week's scans
-Open the Obsidian vault at `$OBSIDIAN_VAULT_PATH`.
+Open the Obsidian vault at the path set in the `OBSIDIAN_VAULT_PATH` environment variable. Do not treat the string `$OBSIDIAN_VAULT_PATH` as a literal path. Resolve the variable's value first (e.g. `C:\Users\YourName\Documents\obsidian-vault`). If `OBSIDIAN_VAULT_PATH` is unset, fall back to `~/Documents/Obsidian Vault/`.
 
 Read all daily scan files from the past 7 days:
 - Path pattern: `wiki/synthesis/argus-scan-{YYYY-MM-DD}.md`
 - Read each file that exists. Some days may have no scan file — skip them.
 - Also read `wiki/inbox/` for any handoff files from this week: `argus-handoff-{YYYY-MM-DD}.json`
 
-If fewer than 3 scan files exist for the week, write a short Obsidian note noting the gap and stop — do not send a Telegram summary.
+If fewer than 3 scan files exist for the week, do not produce a full synthesis. Instead, write a short Obsidian note recording the gap, then send a one-line Telegram alert via `send_message(action='send', target='telegram', message=...)` so the run is never silent. Example: `⚠️ Weekly synthesis skipped: only {N} scan files found for {Mon DD}–{Sun DD}. Check OBSIDIAN_VAULT_PATH points to the right vault.` Then stop. A silent exit here hides a misconfigured vault path, so always send this alert.
 
 ### Step 2 — Identify patterns
 Across all scans you just read, find:
