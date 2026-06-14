@@ -48,7 +48,7 @@ In Hermes Desktop, run this command:
 hermes profile install github.com/PedjaDrazic/hermes-research-agent --alias
 ```
 
-This downloads 14 files: the agent's identity (SOUL.md), 3 research skills, 3 cron job definitions, 2 MCP servers, and the config.
+This downloads the agent's identity (SOUL.md), 4 research skills, 4 cron job definitions, 2 MCP servers, and the config.
 
 **Step 3 — Fill your credentials**
 

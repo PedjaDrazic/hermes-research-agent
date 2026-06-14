@@ -7,8 +7,9 @@ license: "MIT"
 
 env_requires:
   - name: OPENROUTER_API_KEY
-    description: "OpenRouter API key for model access. Get one free at openrouter.ai"
-    required: true
+    description: "OpenRouter API key — only needed if you use OpenRouter as your model provider. Not required if using Nous Portal (hermes setup --portal). Get credits at openrouter.ai"
+    required: false
+    default: ""
 
   - name: TELEGRAM_BOT_TOKEN
     description: "Telegram bot token. Create via @BotFather on Telegram, then /newbot"
