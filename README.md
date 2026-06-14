@@ -26,6 +26,12 @@ You configure it once. It runs without you.
 - Polymarket predictions: AI/tech, crypto, macro
 - Written to Obsidian
 
+### Weekly synthesis (Sunday 18:00)
+- Reads all 7 daily Argus scans from the week
+- Surfaces recurring signals, the week's emerging theme, score distribution
+- Delivers the single best content angle to Telegram
+- Saves full synthesis to Obsidian at `wiki/synthesis/argus-week-{YYYY-WNN}.md`
+
 ---
 
 ## Install

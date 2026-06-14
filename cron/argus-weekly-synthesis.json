@@ -1,0 +1,11 @@
+{
+  "name": "argus-weekly-synthesis",
+  "skill": "argus-weekly-synthesis",
+  "skills": ["argus-weekly-synthesis", "obsidian"],
+  "prompt": "Run the weekly Argus synthesis now.\n\n1. Read all daily scan files from the past 7 days in the Obsidian vault (wiki/synthesis/argus-scan-*.md). Also read any handoff files from wiki/inbox/ this week.\n2. If fewer than 3 scan files exist, write a short Obsidian note about the gap and stop.\n3. Identify: recurring signals (appeared 3+ days), the emerging theme for the week, score distribution (how many 5s, 4s, 3s), and the single best content angle.\n4. Deliver the summary to Telegram via send_message.\n5. Save the full synthesis to Obsidian at wiki/synthesis/argus-week-{YYYY-WNN}.md and append to wiki/log.md.",
+  "schedule": "0 18 * * 0",
+  "repeat": "forever",
+  "deliver": "local",
+  "enabled": true,
+  "enabled_toolsets": ["file"]
+}

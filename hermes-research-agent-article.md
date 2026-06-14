@@ -68,11 +68,12 @@ This tells the agent where to deliver its digests.
 
 **Step 5 — Enable the cron jobs**
 
-In Hermes Desktop, open the hermes-research-agent profile. Go to cron jobs. You'll see 3 listed:
+In Hermes Desktop, open the hermes-research-agent profile. Go to cron jobs. You'll see 4 listed:
 
 - `argus-morning-scan` — daily at 09:00 local time
 - `market-scan` — every Monday at 11:00
 - `polymarket-scan` — every Monday at 11:30
+- `argus-weekly-synthesis` — every Sunday at 18:00
 
 Enable the ones you want. They start running on their next scheduled tick.
 
