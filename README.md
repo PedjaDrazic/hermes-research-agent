@@ -68,9 +68,17 @@ Set your Telegram home channel so the agent knows where to send digests:
 
 ## Required credentials
 
+### Model provider (pick one)
+
+| Option | How to set up |
+|---|---|
+| **Nous Portal** ✅ recommended | No API key needed. Run `hermes setup --portal` after installing. One OAuth login covers 300+ models + Tool Gateway. [portal.nousresearch.com](https://portal.nousresearch.com/manage-subscription) |
+| **OpenRouter** | Set `OPENROUTER_API_KEY` in `.env`. Account free, ~$5 credits to start. [openrouter.ai](https://openrouter.ai) |
+
+### Always required
+
 | Variable | Where to get it |
 |---|---|
-| `OPENROUTER_API_KEY` | [openrouter.ai](https://openrouter.ai) — free to start |
 | `TELEGRAM_BOT_TOKEN` | [@BotFather](https://t.me/BotFather) on Telegram → `/newbot` |
 | `TELEGRAM_ALLOWED_USERS` | Your user ID from [@userinfobot](https://t.me/userinfobot) |
 | `OBSIDIAN_VAULT_PATH` | Absolute path to your local Obsidian vault |
@@ -89,11 +97,48 @@ The Finnhub server is a local Python script at `tools/finnhub_server.py`. It req
 
 ---
 
-## Recommended model
+## Model provider
 
-`deepseek/deepseek-v4-flash` via OpenRouter. Fast, cheap (~$0.10/day for all three cron jobs combined), handles research and scoring well.
+**Option 1 — Nous Portal** (recommended)
 
-You can change this in `config.yaml` to any OpenRouter-supported model.
+[portal.nousresearch.com](https://portal.nousresearch.com) — the native provider for Hermes Agent. One OAuth login covers 300+ frontier models and the Nous Tool Gateway (web search, browser automation, image gen, TTS — no separate API keys).
+
+No API key file needed. After installing the profile, run:
+```bash
+hermes setup --portal
+```
+Or if you already have Hermes configured with another provider:
+```bash
+hermes model
+# pick "Nous Portal" from the list
+```
+The Portal refresh token is shared across all Hermes profiles automatically — if you're already logged in, this profile picks it up with no extra setup.
+
+Recommended models for agent work (prices per million tokens — input / output):
+
+| Model | Input | Output | Notes |
+|---|---|---|---|
+| `deepseek/deepseek-v4-flash` | $0.10 | $0.20 | Default — best value for cron jobs |
+| `deepseek/deepseek-v4-pro` | $1.60 | $3.20 | Higher reasoning quality |
+| `anthropic/claude-sonnet-4.6` | $3.00 | $15.00 | Best general-purpose agent model |
+| `anthropic/claude-haiku-4.5` | $1.00 | $5.00 | Fast, cheap Anthropic option |
+| `google/gemini-3.5-flash` | $1.50 | $9.00 | Large context window |
+| `stepfun/step-3.7-flash` | $0.20 | $1.15 | Cheap alternative to DeepSeek Flash |
+
+> **Note:** Hermes 4 models (Hermes-4-70B, Hermes-4-405B) are tuned for chat, not tool-calling loops. Do not use them inside Hermes Agent — this is official guidance from Nous Research.
+
+> **Free models** (`nvidia/nemotron-3-ultra:free`, `stepfun/step-3.7-flash:free`) are available but not recommended for scheduled cron jobs — no SLA, variable latency.
+
+**Option 2 — OpenRouter**
+
+[openrouter.ai](https://openrouter.ai) — works out of the box with the default `config.yaml`. Account is free, but you need credits loaded (~$5 to start). Do not use free-tier models — they have rate limits and queue latency that break scheduled cron jobs.
+
+Add your key to `.env`:
+```
+OPENROUTER_API_KEY=your_key_here
+```
+
+Recommended model: `deepseek/deepseek-v4-flash` (~$0.10/day, ~$3/month for all three cron jobs).
 
 ---
 
