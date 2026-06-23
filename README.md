@@ -13,7 +13,7 @@ You configure it once. It runs without you.
 ### Daily morning scan (09:00 local time)
 - AI and tech news from the web, X/Twitter, arXiv, YouTube
 - Every item scored 1–5 (breaking → noise)
-- Only items scoring 3+ reach Telegram
+- Only items scoring 4+ reach Telegram (3s and below stay in Obsidian, off your phone)
 - Full scan always written to Obsidian for reference
 - Format: `**[breaking]**`, `**[emerging]**`, `**[backfill]**`, `**[evergreen]**` labels in a rich markdown table
 
@@ -49,6 +49,29 @@ cp ~/.hermes/profiles/hermes-research-agent/.env.EXAMPLE \
    ~/.hermes/profiles/hermes-research-agent/.env
 # Edit .env with your API keys
 ```
+
+### Make it yours (required — do this before the first run)
+
+Out of the box the agent ships with a **template** interest profile full of
+`[placeholders]`. It will not produce useful scans until you tell it your niche.
+Edit this file:
+
+```
+~/.hermes/profiles/hermes-research-agent/skills/research/argus-morning-scan/references/interests.yaml
+```
+
+Replace every `[placeholder]` with your own:
+- **Keywords** for each of the 5 lanes (the hard news, content topics, and pain
+  phrases that define your space)
+- **Competitor / benchmark accounts** in the `competitor_intelligence` lane —
+  the handles you want watched, with a one-line `focus` for each
+- **Benchmark accounts** in the `content_performance` lane
+
+That single file is the agent's brain. Five minutes here is the difference between
+a generic scanner and one tuned to exactly what you care about.
+
+Optional: edit `references/sources.md` in the same folder to point at the primary
+news pages for your niche (it ships with AI-industry defaults).
 
 Start the agent:
 

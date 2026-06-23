@@ -1,0 +1,93 @@
+# Argus Interest Profile — TEMPLATE
+# This file is the agent's brain: it defines what Argus scans for and who it watches.
+# EDIT THIS before first run. Replace every [PLACEHOLDER] with your own niche,
+# keywords, and competitor accounts. The example values below are illustrative —
+# they are NOT meant to be used as-is.
+#
+# Used by: argus-morning-scan skill
+# Purpose: explicit signal lanes + competitor accounts for the daily scan
+
+lanes:
+  - id: tool_ecosystem
+    name: "Tool / Industry Ecosystem"
+    priority: 1
+    description: "[Describe lane 1: the core product/tool/industry news you must not miss.]"
+    keywords:
+      - "[keyword 1]"
+      - "[keyword 2]"
+      - "[keyword 3]"
+      # Add the terms that define your niche's hard news.
+    sources:
+      - twitter_x
+      - hacker_news
+      - github
+
+  - id: content_performance
+    name: "Content Performance Signals"
+    priority: 1
+    description: "What is performing in your niche right now. Feeds your content pipeline."
+    keywords:
+      - "[your niche topic 1]"
+      - "[your niche topic 2]"
+      - "[your niche topic 3]"
+    benchmark_accounts:
+      - "[benchmark-account-1]"
+      - "[benchmark-account-2]"
+    sources:
+      - twitter_x
+      - linkedin
+
+  - id: audience_pain_points
+    name: "Audience Pain Points"
+    priority: 1
+    description: "Public frustrations in your niche. These are content angles and product hooks."
+    keywords:
+      - "[pain phrase 1, e.g. 'X doesn't work']"
+      - "[pain phrase 2]"
+      - "[pain phrase 3]"
+    sources:
+      - twitter_x
+      - reddit
+      - linkedin
+
+  - id: creator_economy
+    name: "Creator Economy Signals"
+    priority: 2
+    description: "Platform algorithm changes, product trends, pricing benchmarks relevant to your business model."
+    keywords:
+      - "[platform] algorithm"
+      - "[your product category] pricing"
+      - "[monetization keyword]"
+    sources:
+      - twitter_x
+      - linkedin
+
+  - id: competitor_intelligence
+    name: "Competitor Intelligence"
+    priority: 1
+    description: "Track benchmark accounts across tiers. Identify content gaps and positioning opportunities."
+    accounts:
+      # Tier 1 — direct benchmarks (closest strategic overlap)
+      - handle: "[competitor-handle-1]"
+        name: "[Competitor Name 1]"
+        platform: twitter_x
+        tier: 1
+        focus: "[What they're the benchmark FOR: hooks, ops, distribution, etc.]"
+      - handle: "[competitor-handle-2]"
+        name: "[Competitor Name 2]"
+        platform: twitter_x
+        tier: 1
+        focus: "[Their strategic overlap with you.]"
+      # Tier 2 — audience and format benchmarks
+      - handle: "[competitor-handle-3]"
+        name: "[Competitor Name 3]"
+        platform: twitter_x
+        tier: 2
+        focus: "[Why you watch them: positioning, trust signals, trend detection.]"
+      # Tier 3 — adjacent (not direct, but worth pulse-checking)
+      - handle: "[competitor-handle-4]"
+        name: "[Competitor Name 4]"
+        platform: twitter_x
+        tier: 3
+        focus: "[Adjacent angle, audience psychology, etc.]"
+      # Add as many as you track. 4-8 is a sensible range.

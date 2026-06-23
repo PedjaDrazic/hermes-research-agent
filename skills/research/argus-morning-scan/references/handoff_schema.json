@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Argus → Content-Agent Handoff",
+  "description": "Schema for content idea packages Argus writes to the content inbox. Each item is a ready-to-draft idea with signal source, content framing, and platform target. A downstream content agent (or your own queue) ingests these.",
+  "version": "1.0",
+  "type": "object",
+  "required": ["handoff_version", "source", "scan_date", "items"],
+  "properties": {
+    "handoff_version": {
+      "type": "string",
+      "description": "Schema version. Increment on breaking changes.",
+      "example": "1.0"
+    },
+    "source": {
+      "type": "string",
+      "const": "argus",
+      "description": "Always 'argus' — identifies the producer."
+    },
+    "scan_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the Argus scan that generated these ideas. YYYY-MM-DD.",
+      "example": "2026-01-15"
+    },
+    "items": {
+      "type": "array",
+      "description": "Content ideas to add to the queue. Max 3 per handoff. Only include items with score >= 3 AND a clear, specific angle.",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "signal", "content"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID for this handoff item. Format: argus-YYYY-MM-DD-NNN",
+            "example": "argus-2026-01-15-001"
+          },
+          "signal": {
+            "type": "object",
+            "description": "The raw signal that triggered this idea.",
+            "required": ["headline", "source_platform", "lane", "score"],
+            "properties": {
+              "headline": {
+                "type": "string",
+                "description": "One-line summary of what happened.",
+                "example": "Vendor X drops API pricing by 40%"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Source URL. Required if available."
+              },
+              "source_platform": {
+                "type": "string",
+                "enum": ["twitter_x", "linkedin", "hacker_news", "github", "reddit", "arxiv", "other"],
+                "description": "Platform where the signal was found."
+              },
+              "source_account": {
+                "type": "string",
+                "description": "Account handle if from a social platform. Optional.",
+                "example": "@example"
+              },
+              "lane": {
+                "type": "string",
+                "enum": ["tool_ecosystem", "content_performance", "audience_pain_points", "creator_economy", "competitor_intelligence"],
+                "description": "Which interest lane this signal belongs to. Must match the lane ids in interests.yaml."
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 3,
+                "maximum": 5,
+                "description": "Argus relevance score. Only handoff items scored 3 or above."
+              }
+            }
+          },
+          "content": {
+            "type": "object",
+            "description": "The content idea to draft. This is the framing work Argus does so the writer does not have to re-derive it.",
+            "required": ["topic", "platform", "angle", "vault_search"],
+            "properties": {
+              "topic": {
+                "type": "string",
+                "description": "Plain-language description of what to write about.",
+                "example": "What the price cut means for solo operators using this tool"
+              },
+              "platform": {
+                "type": "string",
+                "enum": ["linkedin", "x_thread", "email", "newsletter"],
+                "description": "Target publishing platform."
+              },
+              "angle": {
+                "type": "string",
+                "description": "Specific take or hook direction. The most important field — the insight, not just the topic. Must be specific enough to open with.",
+                "example": "A cheaper tool does not mean a better workflow. The price changed; the setup did not."
+              },
+              "vault_search": {
+                "type": "string",
+                "description": "Keywords to find relevant Argus synthesis files in the vault.",
+                "example": "pricing tool cost workflow"
+              },
+              "urgency": {
+                "type": "string",
+                "enum": ["breaking", "this_week", "evergreen"],
+                "description": "How time-sensitive. 'breaking' = draft today. 'this_week' = within 3 days. 'evergreen' = no time pressure.",
+                "default": "this_week"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "handoff_version": "1.0",
+      "source": "argus",
+      "scan_date": "2026-01-15",
+      "items": [
+        {
+          "id": "argus-2026-01-15-001",
+          "signal": {
+            "headline": "Vendor X drops API pricing by 40%",
+            "url": "https://example.com/pricing",
+            "source_platform": "twitter_x",
+            "source_account": "@example",
+            "lane": "tool_ecosystem",
+            "score": 4
+          },
+          "content": {
+            "topic": "What the price cut means for solo operators using this tool",
+            "platform": "linkedin",
+            "angle": "A cheaper tool does not mean a better workflow. The price changed; your setup did not. That is the gap.",
+            "vault_search": "pricing tool cost workflow",
+            "urgency": "breaking"
+          }
+        }
+      ]
+    }
+  ]
+}

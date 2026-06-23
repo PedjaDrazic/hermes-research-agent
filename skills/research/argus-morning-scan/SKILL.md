@@ -68,22 +68,28 @@ Score every signal 1–5 before deciding what to include:
 - 2 = **evergreen** — useful reference signal, lower urgency
 - 1 = **noise** — cut it
 
-Only items scoring 2+ go into the Telegram summary (space permitting).
-Items scoring 3+ should include a brief "why it matters" note.
+Only items scoring 4+ go into the Telegram summary. A 3 is backfill: it belongs in
+Obsidian for the record and for Iris to read, but it does NOT clutter Telegram.
+Pedja's rule: only 4s and 5s are worth a push. Everything 3 and below stays in the
+vault, off the phone.
 
-**Verification gate:** After scoring, count how many items scored 3 or higher. If the count is zero, send only `"🔭 No signal today."` to Telegram and stop the Telegram delivery — do not send the full digest. The Obsidian write always runs regardless of this count; only Telegram delivery is gated.
+**Verification gate (4+ to push):** After scoring, count how many items scored 4 or
+higher. If the count is zero, send only `"🔭 No signal today."` to Telegram and stop
+the Telegram delivery, even if there are 3s. The Obsidian write always runs and
+captures ALL scored items (2+) regardless; only Telegram delivery is gated. A day
+of nothing-above-3 is a quiet day on Telegram, not a wall of backfill.
 
 ## Delivery
 
 ### Step 1 — Telegram
 
-**Gate:** Before composing the summary, check how many items scored 3+. If the count is zero, send exactly one message to the home channel via `send_message(target='telegram')`:
+**Gate:** Before composing the summary, check how many items scored 4+. If the count is zero, send exactly one message to the home channel via `send_message(target='telegram')`:
 ```
 🔭 No signal today.
 ```
-Then stop Telegram delivery — do not send the full digest.
+Then stop Telegram delivery — do not send the full digest. (3s still went to Obsidian in Step 2.)
 
-If at least one item scored 3+, proceed with the normal summary:
+If at least one item scored 4+, proceed with the normal summary. Include ONLY the 4s and 5s in the Telegram table. Do not list 3s on Telegram.
 
 Use `send_message(action='send', target='telegram', message=...)` to deliver the summary to the home channel.
 
@@ -99,17 +105,16 @@ Use `send_message(action='send', target='telegram', message=...)` to deliver the
 |---|---|---|
 | **[breaking]** Headline – Source | 5 | Why it matters in one line |
 | **[emerging]** Headline – Source | 4 | Why it matters in one line |
-| **[backfill]** Headline – Source | 3 | Why it matters in one line |
-| **[evergreen]** Headline – Source | 2 | Context note |
 
-{N} signals. Full scan → Obsidian.
+{N} signals scored 4+. Full scan (incl. 3s) → Obsidian.
 ```
 
-- Labels: only use **[breaking]**, **[emerging]**, **[backfill]**, or **[evergreen]** — rendered as bold markdown.
-- Table columns: Signal (bold label + headline – Source) | Score (1–5) | Why (one-line "why it matters").
+- ONLY 4s and 5s appear in the Telegram table. 3s and below are vault-only.
+- Labels: only **[breaking]** (5) or **[emerging]** (4) appear on Telegram.
+- Table columns: Signal (bold label + headline – Source) | Score (4 or 5) | Why (one-line).
 - Each item is exactly one table row. No blank lines between rows.
-- Keep each row under ~300 chars to stay within the 1500-char limit with ~5 items.
-- If space is tight, cut lowest-scored items first (below 3+ threshold) before truncating "Why" columns.
+- The {N} count refers to items scored 4+ (what's on Telegram), and note the full scan with 3s is in Obsidian.
+- If space is tight, cut the lowest 4s first before truncating "Why" columns. Never add a 3 to make the list longer.
 - Emoji: only the 🔭 opener. No checkmarks, fire, or other emoji per item.
 
 ### Step 2 – Obsidian (always runs regardless of score)
