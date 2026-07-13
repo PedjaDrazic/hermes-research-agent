@@ -18,7 +18,7 @@ You are a signal detector. A trend watcher. A research engine.
 
 ## Identity
 - Name: Argus
-- Owner: Pedja Drazic (AI educator, pedjadrazic.com)
+- Owner: Pedja Drazic (AI Workflow Architect, pedjadrazic.com)
 - Purpose: AI niche research, trend detection, content intelligence
 
 ## What you watch
@@ -169,7 +169,7 @@ signals: {N}
 ## Cron Deployment Notes
 
 When running as a cron job:
-- **Delivery routing:** Cron jobs with `deliver: local` save output to the cron session store only. The Telegram message is sent by the skill's own `send_message` call — this is independent of the `deliver` field.
+- **Delivery routing:** `deliver` is the only thing that gets a cron job's output to Telegram. Scheduled cron runs are injected with a system instruction telling the agent NOT to call `send_message` itself and to let its final response be auto-delivered instead (respond with exactly `[SILENT]` to suppress a quiet run) — so the `send_message` calls described above are a fallback, not the primary path. Set `deliver: telegram` (not `local`) so the final response actually reaches your Telegram home channel.
 - **Telegram bot token:** Must be set in the profile's `.env` as `TELEGRAM_BOT_TOKEN`.
 - **Allowed users:** Set `TELEGRAM_ALLOWED_USERS` in `.env` to the Telegram chat/user ID.
 - **Obsidian vault path:** Set `OBSIDIAN_VAULT_PATH` in `.env` to point to your vault (e.g. `C:\\Users\\YourName\\Documents\\obsidian-vault`). The agent falls back to `~/Documents/Obsidian Vault/` if unset.
@@ -180,6 +180,5 @@ When running as a cron job:
 
 When you need to test the scan outside its scheduled run:
 1. **Do NOT use `cronjob action=run`** — it fires the job but does not reliably produce visible output.
-2. **Load this skill directly**, then run the scan as a normal task.
-3. This is the reliable way to verify delivery routing, vault paths, and Telegram delivery.
-4. After a successful test run, the cron-scheduled version will produce the same result at its next tick.
+2. **Load this skill directly**, then run the scan as a normal task. This verifies the scan logic, vault paths, and (if it calls `send_message`) Telegram delivery.
+3. **This does NOT verify cron delivery routing** — the "don't call `send_message`, auto-deliver my final response" instruction is only injected on real scheduled cron runs, so an off-cron test can look correct while the actual cron job still doesn't reach Telegram. Confirm `deliver` is set to `telegram` (not `local`) in the cron job definition, and check a real scheduled run's output once it fires.

@@ -15,7 +15,7 @@ OBSIDIAN_VAULT_PATH=C:/path/to/vault    # Absolute path to your vault
 hermes -p hermes-research-agent cron create "0 9 * * *" "...full scan prompt..." \
   --name argus-morning-scan \
   --skill argus-morning-scan --skill obsidian \
-  --deliver origin
+  --deliver telegram
 ```
 
 ### Time Zone Handling
@@ -30,12 +30,16 @@ Verify with the `Next run` field in the cron-create response.
 | `--deliver` value | Behaviour |
 |----------------|-----------|
 | `local` | Saves to cron session store only. **Telegram message is never sent.** |
-| `origin` | Delivers back to the chat the cron was created from. Use this for Telegram. |
-| `telegram:<chat_id>` | Delivers to a specific Telegram chat. |
+| `telegram` | Delivers to your Telegram home channel (set via `/sethome`). Simplest correct value for this repo — use this. |
+| `origin` | Delivers back to the chat the cron was created from; falls back to each connected platform's home channel if there's no origin (true for jobs created from the `cron/*.json` files, not an interactive chat). |
+| `telegram:<chat_id>` | Delivers to a specific Telegram chat, bypassing the home-channel lookup. |
 
-**Important:** the agent produces Telegram-formatted output regardless of delivery
-mode. `--deliver` controls WHERE it goes, not what it looks like. For the scan to
-reach Telegram, use `origin` or a `telegram:` target — NOT `local`.
+**Important:** scheduled cron runs are injected with a system instruction telling the
+agent NOT to call `send_message` itself — the agent's final response is auto-delivered
+via the `deliver` field instead, and `[SILENT]` (exactly that, nothing else) suppresses
+delivery on a quiet run. The skill's own `send_message` calls only matter if the agent
+ignores that instruction. For the scan to reach Telegram, `deliver` must be `telegram`,
+`origin`, or `telegram:<chat_id>` — never `local`.
 
 ### Approval Mode
 Cron jobs can stall on shell commands if `approvals.mode` is `manual` and a command
@@ -56,7 +60,7 @@ hermes -p hermes-research-agent gateway status  # cron only fires if gateway is 
 
 ## Known Pitfalls
 - **Gateway must be running:** the cron scheduler runs inside the gateway process. If the gateway is down, cron jobs do not fire. Check `gateway status`.
-- **`local` delivery never reaches Telegram:** the single most common "why didn't I get my scan" cause. Use `origin`.
+- **`local` delivery never reaches Telegram:** the single most common "why didn't I get my scan" cause. Use `telegram`. This is easy to miss because the cron run still shows `last_status: ok` — the scan ran fine, it just never went anywhere.
 - **Sources bootstrap:** if `references/sources.md` is missing, the agent invents its own — works, but you lose your curated source list. Keep `sources.md` in the skill dir.
 - **Vault auto-creation:** if `OBSIDIAN_VAULT_PATH` is unset, the agent falls back to `~/Documents/Obsidian Vault/`. Set the env var to point at your real vault.
 - **Updates can wipe crons:** `hermes update` may clear the cron store and stop gateways. After any update, re-check `cron list` and `gateway status`, and recreate jobs if needed. Keep your cron definitions in the repo's `cron/` folder so recovery is copy-paste.

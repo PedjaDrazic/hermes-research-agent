@@ -183,6 +183,6 @@ Your `.env`, memories, and sessions are never touched on update.
 
 ## Built by
 
-[Pedja Drazic](https://pedjadrazic.com) — AI educator building honest, reproducible agent workflows for solo operators.
+[Pedja Drazic](https://pedjadrazic.com) — AI Workflow Architect. Building practical AI tools and workflows.
 
 Questions or issues → open a GitHub issue or find me on [X](https://x.com/PedjaDrazic).

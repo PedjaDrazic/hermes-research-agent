@@ -19,13 +19,12 @@ provider:
 # Cron jobs declare their own minimum subset in each skill's frontmatter.
 tool_sets:
   enabled:
-    - web_search
+    - web
     - browser
-    - file_ops
-    - messaging
+    - file
     - memory
     - session_search
-    - cron_jobs
+    - cronjob
     - code_execution
     - terminal
     - x_search
